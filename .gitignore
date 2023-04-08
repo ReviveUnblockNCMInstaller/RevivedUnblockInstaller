@@ -1,0 +1,5 @@
+yarn.lock
+node_modules
+/main.js
+/startup_script.js
+/style.css

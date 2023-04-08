@@ -1,0 +1,24 @@
+{
+  "name": "RevivedUnblockInstaller",
+  "version": "1.0.0",
+  "description": "RevivedUnblockInstaller",
+  "main": "index.js",
+  "repository": "https://github.com/BetterNCM/boilerplate",
+  "author": "RevivedUnblockInstaller </>",
+  "license": "GPL-3.0-or-later",
+  "private": false,
+  "dependencies": {
+    "notiflix": "^3.2.6"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.29",
+    "@types/react-dom": "^18.0.11",
+    "esbuild": "^0.17.13",
+    "esbuild-plugin-less": "^1.2.0"
+  },
+  "scripts": {
+    "build:dev": "node build.js --dev",
+    "build": "node build.js",
+    "analyze": "esbuild --bundle ./src/main.ts --outdir=dist --minify --analyze=verbose"
+  }
+}

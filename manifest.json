@@ -1,0 +1,16 @@
+{
+    "manifest_version": 1,
+    "name": "RevivedUnblockInstaller", 
+    "version": "1.0.0",
+    "author": "RevivedUnblockInstaller", 
+    "description": "RevivedUnblockInstaller",
+    "betterncm_version": ">=0.2.5",
+    "preview": "preview.png",
+    "injects": {
+        "Main": [ 
+            {
+                "file": "./main.js"
+            }
+        ]
+    }
+}

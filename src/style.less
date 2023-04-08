@@ -1,0 +1,171 @@
+@circle-size: 20px;
+@circle-border-width: 2px;
+@circle-color-installed: #4caf50;
+@circle-color-not-installed: #f44336;
+@font-size-tag: 16px;
+@font-size-details: 12px;
+@font-color-tag: #fff;
+@font-color-details: #9e9e9e;
+.unm {
+  padding: 10px;
+  * {
+    font-family: "Noto Sans" !important;
+  }
+  .title {
+    margin: 15px;
+    font-size: 45px;
+    font-weight: 800;
+    color: #ffffff8c;
+    .revived {
+      font-size: 30px;
+      font-weight: 600;
+      color: rgb(255, 228, 196);
+    }
+  }
+
+  .rr-btn {
+    &_container {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    &_button {
+      transition: background 0.2s;
+      border: none;
+      border-radius: 5px;
+      height: 40px;
+      margin: 0 10px;
+    }
+
+    &_button:active {
+      outline: none;
+    }
+
+    &_enabled {
+      background-color: #3f7443;
+    }
+
+    &_disabled {
+      background-color: #a84448;
+    }
+  }
+
+  .optionBlock {
+    padding: 20px;
+    margin: 10px 10px;
+    border-radius: 5px;
+    background: rgb(19, 19, 19);
+    .optionTitle {
+      font-size: 27px;
+      font-weight: 800;
+      margin-bottom: 15px;
+      color: #ffffff71;
+    }
+    .optionSubtitle {
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    &.versionSel {
+      .version-selector {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .version-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        cursor: pointer;
+        margin: 5px;
+        border-radius: 5px;
+      }
+
+      .circle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: @circle-size;
+        height: @circle-size;
+        border-radius: 50%;
+        border: @circle-border-width solid;
+      }
+
+      .circle-inner {
+        width: @circle-size / 2;
+        height: @circle-size / 2;
+        border-radius: 50%;
+        background-color: @circle-color-installed;
+      }
+
+      .circle.installed .circle-inner {
+        background-color: @circle-color-installed;
+      }
+
+      .circle:not(.installed) .circle-inner {
+        background-color: @circle-color-not-installed;
+      }
+
+      .info {
+        margin-left: 10px;
+      }
+
+      .tag {
+        font-size: @font-size-tag;
+        font-weight: bold;
+        color: @font-color-tag;
+      }
+
+      .details {
+        font-size: @font-size-details;
+        color: @font-color-details;
+        margin-top: 5px;
+      }
+
+      .filename {
+        margin-right: 10px;
+      }
+
+      .selected .circle {
+        border-color: @circle-color-installed;
+      }
+
+      .selected:not(.installed) .circle {
+        border-color: @circle-color-not-installed;
+      }
+    }
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #ffffff;
+    background-color: #222222;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btn:hover {
+    cursor: pointer;
+    background-color: #333333;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+  }
+
+  .btn:active {
+    background-color: #444444;
+    box-shadow: none;
+  }
+
+  .btn:focus {
+    outline: none;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.2);
+  }
+}

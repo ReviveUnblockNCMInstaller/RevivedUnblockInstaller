@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "es2020",
+        /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+        "jsx": "react",
+        "jsxFactory": "h",
+        "jsxFragmentFactory": "f",
+        /* Specify what JSX code is generated. */
+        "module": "commonjs",
+        /* Specify what module code is generated. */
+        "allowJs": true,
+        /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
+        "checkJs": false,
+        /* Enable error reporting in type-checked JavaScript files. */
+        "esModuleInterop": true,
+        /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
+        "forceConsistentCasingInFileNames": true,
+        /* Ensure that casing is correct in imports. */
+        "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+        "outDir": "./dist",
+    }
+}
