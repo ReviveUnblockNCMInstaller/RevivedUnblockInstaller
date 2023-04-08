@@ -101,7 +101,7 @@ export function Config({ config, stylesheet }: { config: LocalJSONConfig, styles
 
             <RoundedRectButton defaultValue={config.getConfig("enabled", false)} onChange={onPluginStatusChange}>
                 <div className="optionBlock versionSel">
-                    <div className="optionTitle">下载配置</div>
+                    <div className="optionTitle">下载</div>
                     <div className="optionSubtitle">版本选择</div>
                     <VersionSelector
                         UNMVersions={versions}
@@ -111,13 +111,27 @@ export function Config({ config, stylesheet }: { config: LocalJSONConfig, styles
                     <button className="btn" onClick={() => onApplyVersion()}>应用</button>
                 </div>
 
-                <div className="optionBlock versionSel">
-                    <div className="optionTitle">运行状况</div>
+                <div className="optionBlock">
+                    <div className="optionTitle">运行</div>
                     <div className="optionSubtitle">当前端口</div>
                     <div style={{ padding: "10px", fontSize: "20px" }}>{config.getConfig("port", Math.round(Math.random() * 10000 + 10000))}</div>
                     <div className="optionSubtitle">操作</div>
                     <button style={{ margin: "10px 5px" }} className="btn" onClick={() => switchWindowShow()}>切换窗口显隐</button>
                     <button style={{ margin: "10px 5px" }} className="btn" onClick={() => checkAndExecuteUnblock(config)}>重新启动进程</button>
+                </div>
+
+                <div className="optionBlock">
+                    <div className="optionTitle">其他</div>
+                    <div className="optionSubtitle">关于</div>
+                    <div style={{ padding: "10px", fontSize: "17px" }}>
+                        本插件资源仅供学习交流，严禁用于商业用途。<br />
+                        歌曲版权归原作者所有，如有侵权请联系删除。<br />
+                        本插件仅为安装器，不提供任何音乐资源。<br />
+                        不建议进行大型宣发，传播。
+                    </div>
+                    <div className="optionSubtitle">点点 Star ⭐</div>
+                    <button style={{ margin: "10px 5px" }} className="btn" onClick={() => betterncm.ncm.openUrl('https://github.com/UnblockNeteaseMusic/server')}>解灰源项目</button>
+                    <button style={{ margin: "10px 5px" }} className="btn" onClick={() => betterncm.ncm.openUrl('https://github.com/ReviveUnblockNCMInstaller/RevivedUnblockInstaller')}>一键安装器（本项目）</button>
                 </div>
             </RoundedRectButton>
             <style>
