@@ -35,9 +35,46 @@ const generateEnvironmentVariablesCommandLine = (env: UNMEnvironmentVariables) =
     return command.slice(0, -4);
 }
 
-export const startUNM = async (binaryPath: string, port: number, env: UNMEnvironmentVariables, visible: boolean = false) => {
-    const command = `cmd /c ${generateEnvironmentVariablesCommandLine(env)} && ${await betterncm.app.getDataPath()}${binaryPath} -p ${port}:${port + 1}`;
-    console.log("Launching UNM: ", command)
+interface UNMArguments {
+    version?: boolean,
+    port?: string,
+    address?: string,
+    proxyUrl?: string,
+    forceHost?: string,
+    matchOrder?: string[],
+    token?: string,
+    endpoint?: string,
+    strict?: boolean,
+    cnrelay?: string,
+    help?: boolean
+}
+
+function generateCommandLine(args: UNMArguments): string {
+    let cmd = "";
+    if (args.version) cmd += " -v";
+    if (args.port) cmd += ` -p ${args.port}`;
+    if (args.address) cmd += ` -a ${args.address}`;
+    if (args.proxyUrl) cmd += ` -u ${args.proxyUrl}`;
+    if (args.forceHost) cmd += ` -f ${args.forceHost}`;
+    if (args.matchOrder) cmd += ` -o ${args.matchOrder.join(" ")}`;
+    if (args.token) cmd += ` -t ${args.token}`;
+    if (args.endpoint) cmd += ` -e ${args.endpoint}`;
+    if (args.strict) cmd += " -s";
+    if (args.cnrelay) cmd += ` -c ${args.cnrelay}`;
+    if (args.help) cmd += " -h";
+    return cmd;
+}
+
+export const startUNM = async (binaryPath: string, port: number, env: UNMEnvironmentVariables, visible: boolean = false, args: UNMArguments) => {
+    args["port"] = `${port}:${port + 1}`;
+    const command = `cmd /c ${generateEnvironmentVariablesCommandLine(env)} && ${await betterncm.app.getDataPath()}${binaryPath} ${generateCommandLine(args)}`;
+    console.log("Launching UNM: ", command, {
+        visible,
+        binaryPath,
+        port,
+        env,
+        args
+    });
     betterncm.app.exec(command, false, visible);
 }
 
@@ -53,7 +90,9 @@ export async function installAndLaunchUnblock(port: number, config: LocalJSONCon
         startUNM(binaryPath, port, {
             ENABLE_LOCAL_VIP: false,
             BLOCK_ADS: false,
-        }, config.getConfig("visible", false));
+        }, config.getConfig("visible", false), {
+            proxyUrl: config.getConfig("upstream-proxy", ""),
+        });
     } else {
         if (selectedVersion.installed) {
             Notiflix.Notify.failure("[Revived UnblockMusic] 未找到 UnblockNeteaseMusic 二进制文件，请重新选择版本并安装");

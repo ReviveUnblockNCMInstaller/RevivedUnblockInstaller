@@ -4,6 +4,7 @@ import { LocalJSONConfig } from "../utils/config"
 import { RoundedRectButton } from "./RoundRectBtn";
 import { VersionSelector } from "./VersionSelector";
 import { readUrlFile } from "../utils/network";
+import { Input } from "./Input"
 
 export function Config({ config, stylesheet }: { config: LocalJSONConfig, stylesheet: string }) {
     const [configRefresher, setRefresher] = React.useState(0);
@@ -113,11 +114,20 @@ export function Config({ config, stylesheet }: { config: LocalJSONConfig, styles
 
                 <div className="optionBlock">
                     <div className="optionTitle">运行</div>
+                    <div className="optionSubtitle">配置</div>
+                    <Input label="上游代理" placeholder="无" onChange={e => {
+                        config.setConfig("upstream-proxy", e.target.value);
+                        config.write();
+                    }} defaultValue={config.getConfig("upstream-proxy", "")} />
+                    <div className="note">注：你需要重启进程后配置才能生效</div>
                     <div className="optionSubtitle">当前端口</div>
                     <div style={{ padding: "10px", fontSize: "20px" }}>{config.getConfig("port", Math.round(Math.random() * 10000 + 10000))}</div>
                     <div className="optionSubtitle">操作</div>
                     <button style={{ margin: "10px 5px" }} className="btn" onClick={() => switchWindowShow()}>切换窗口显隐</button>
-                    <button style={{ margin: "10px 5px" }} className="btn" onClick={() => checkAndExecuteUnblock(config)}>重新启动进程</button>
+                    <button style={{ margin: "10px 5px" }} className="btn" onClick={async () => {
+                        await stopUNMProcesses();
+                        await checkAndExecuteUnblock(config);
+                    }}>重新启动进程</button>
                 </div>
 
                 <div className="optionBlock">

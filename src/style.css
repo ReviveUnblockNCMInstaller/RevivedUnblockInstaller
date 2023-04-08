@@ -42,6 +42,11 @@
   border-radius: 5px;
   background: #131313;
 }
+.unm .optionBlock .note {
+  font-size: 13px;
+  margin: 4px 0;
+  color: #ffffff52;
+}
 .unm .optionBlock .optionTitle {
   font-size: 27px;
   font-weight: 800;
@@ -106,6 +111,42 @@
 }
 .unm .optionBlock.versionSel .selected:not(.installed) .circle {
   border-color: #f44336;
+}
+.unm .optionBlock .input-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+.unm .optionBlock .input-label {
+  color: #ffffffd3;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.unm .optionBlock .input-box {
+  height: 32px;
+  border: none;
+  border-radius: 4px;
+  background-color: #2c2c2c;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 6px 12px;
+  box-shadow: none;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 3px;
+}
+.unm .optionBlock .input-box:hover {
+  background-color: #3c3c3c;
+}
+.unm .optionBlock .input-box:focus {
+  outline: none;
+  background-color: #3c3c3c;
+  box-shadow: 0 0 0 2px #5a5a5a;
+}
+.unm .optionBlock .input-box::placeholder {
+  color: #9b9b9b;
 }
 .unm .btn {
   display: inline-block;
