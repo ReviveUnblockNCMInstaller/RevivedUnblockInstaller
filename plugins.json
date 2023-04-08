@@ -5,7 +5,7 @@
         "version": "1.0.0",
         "description": "一键安装网易云解灰",
         "betterncm_version": ">=1.2.0",
-        "preview": "dist/RevivedUnblockInstaller.png",
+        "preview": "dist/preview.png",
         "slug": "RevivedUnblockInstaller",
         "update_time": -1,
         "publish_time": -1,
