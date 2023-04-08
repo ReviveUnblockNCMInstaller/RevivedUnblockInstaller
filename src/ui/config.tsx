@@ -14,7 +14,7 @@ function SourceOrder({ config }: { config: LocalJSONConfig }) {
 
     const handleBadgeClick = (index) => {
         const newBadges = [...badges];
-        newBadges[index].enabled = !newBadges[index].enabled;
+        newBadges[index].enable = !newBadges[index].enable;
         setBadges(newBadges);
 
         config.setConfig("source-order", newBadges);

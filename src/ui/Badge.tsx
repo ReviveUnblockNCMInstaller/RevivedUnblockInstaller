@@ -1,8 +1,8 @@
 
-export function Badge({ text, enabled, onClick }) {
+export function Badge({ text, enable, onClick }) {
   return (
       <div
-          className={`badge ${enabled ? "badge-enabled" : "badge-disabled"}`}
+          className={`badge ${enable ? "badge-enabled" : "badge-disabled"}`}
           onClick={onClick}
           draggable="true"
       >
@@ -37,7 +37,7 @@ export function BadgeList({ badges, onBadgeClick, onBadgeSwap }) {
               >
                   <Badge
                       text={badge.name}
-                      enabled={badge.enabled}
+                      enable={badge.enable}
                       onClick={(e) => {
                           onBadgeClick(index);
                       }}

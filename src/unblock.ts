@@ -148,7 +148,7 @@ export async function applyProxyConfig(expectedConfig: ProxyConfig, enableCertBy
         || currentConfig?.http?.Port != expectedConfig?.http?.Port) {
         if (expectedConfig.http && typeof expectedConfig.http.Port === "number") expectedConfig.http.Port = (expectedConfig.http.Port as any).toString();
         await setProxyConfig(expectedConfig);
-        await betterncm.utils.delay(500);
+        await betterncm.utils.delay(300);
 
         async function restartNCM() {
             await betterncm.app.exec(`cmd /c ping 127.0.0.1 -n 2 && start """""""" """"%cd%\\cloudmusic.exe""""`, false, false);
@@ -173,7 +173,7 @@ export async function checkAndExecuteUnblock(config: LocalJSONConfig) {
         }
     } as const;
 
-    await betterncm.utils.delay(300);
+    await betterncm.utils.delay(100);
     const proxyedConnectibility = await checkProxiedConnectibility(proxyConf);
 
     if (proxyedConnectibility) {
@@ -182,7 +182,7 @@ export async function checkAndExecuteUnblock(config: LocalJSONConfig) {
         Notiflix.Notify.success("UnblockMusic 服务已启动", { pauseOnHover: false, position: "left-top", timeout: 1000 });
         return;
     } else {
-        await betterncm.utils.delay(300);
+        await betterncm.utils.delay(100);
         const withoutProxyConnectibility = await checkConnectibility();
         if (!withoutProxyConnectibility) {
             Notiflix.Loading.remove();
