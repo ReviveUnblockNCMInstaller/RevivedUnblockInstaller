@@ -21,6 +21,8 @@ const isDev = process.argv.includes('--dev');
             target: 'chrome91',
             plugins: [lessLoader()],
         });
+        
+        const compress = require('compressing');
+        await compress.zip.compressDir('./dist', './RevivedUnblockNeteaseMusic.plugin');
     }
-
 })()
