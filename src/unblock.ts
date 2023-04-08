@@ -87,11 +87,14 @@ export async function installAndLaunchUnblock(port: number, config: LocalJSONCon
     }
     const binaryPath = `./RevivedUnblockInstaller/${selectedVersion.filename}`;
     if (betterncm_native.fs.exists(binaryPath)) {
+        const order = config.getConfig("source-order", SourcesPreset);
+
         startUNM(binaryPath, port, {
             ENABLE_LOCAL_VIP: false,
             BLOCK_ADS: false,
         }, config.getConfig("visible", false), {
             proxyUrl: config.getConfig("upstream-proxy", ""),
+            matchOrder: order.filter(v => v.enable).map(v => v.code),
         });
     } else {
         if (selectedVersion.installed) {
@@ -208,3 +211,69 @@ export async function checkAndExecuteUnblock(config: LocalJSONConfig) {
 
 export const stopUNMProcesses = async () =>
     await betterncm.app.exec(`taskkill /f /fi """"IMAGENAME eq UnblockNeteaseMusic-*""""`);
+
+
+export const SourcesPreset = [
+    {
+        "name": "QQ 音乐",
+        "code": "qq",
+        "enable": true,
+        "note": "需要准备自己的 QQ_COOKIE（请参阅下方〈环境变量〉处）。必须使用 QQ 登录。"
+    },
+    {
+        "name": "酷狗音乐",
+        "code": "kugou",
+        "enable": true
+    },
+    {
+        "name": "酷我音乐",
+        "code": "kuwo",
+        "enable": true
+    },
+    {
+        "name": "咪咕音乐",
+        "code": "migu",
+        "enable": true,
+        "note": "需要准备自己的 MIGU_COOKIE（请参阅下方〈环境变量〉处）。"
+    },
+    {
+        "name": "JOOX",
+        "code": "joox",
+        "enable": false,
+        "note": "需要准备自己的 JOOX_COOKIE（请参阅下方〈环境变量〉处）。似乎有严格地区限制。"
+    },
+    {
+        "name": "YouTube（纯 JS 解析方式）",
+        "code": "youtube",
+        "enable": false,
+        "note": "需要 Google 认定的非中国大陆区域 IP 地址。"
+    },
+    {
+        "name": "yt-download",
+        "code": "ytdownload",
+        "enable": false,
+        "note": "似乎不能使用。"
+    },
+    {
+        "name": "YouTube（通过 youtube-dl）",
+        "code": "youtubedl",
+        "enable": true,
+        "note": "需要自行安装 youtube-dl。"
+    },
+    {
+        "name": "YouTube（通过 yt-dlp）",
+        "code": "ytdlp",
+        "enable": true,
+        "note": "需要自行安装 yt-dlp（youtube-dl 仍在活跃维护的 fork）。"
+    },
+    {
+        "name": "B 站音乐",
+        "code": "bilibili",
+        "enable": true
+    },
+    {
+        "name": "第三方网易云 API",
+        "code": "pyncmd",
+        "enable": false
+    }
+];

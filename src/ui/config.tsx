@@ -1,10 +1,47 @@
 import Notiflix from "notiflix";
-import { applyProxyConfig, checkAndExecuteUnblock, stopUNMProcesses } from "../unblock";
+import { SourcesPreset, applyProxyConfig, checkAndExecuteUnblock, stopUNMProcesses } from "../unblock";
 import { LocalJSONConfig } from "../utils/config"
 import { RoundedRectButton } from "./RoundRectBtn";
 import { VersionSelector } from "./VersionSelector";
 import { readUrlFile } from "../utils/network";
 import { Input } from "./Input"
+import { BadgeList } from "./Badge";
+
+
+function SourceOrder({ config }: { config: LocalJSONConfig }) {
+    const order = config.getConfig("source-order", SourcesPreset);
+    const [badges, setBadges] = React.useState(order);
+
+    const handleBadgeClick = (index) => {
+        const newBadges = [...badges];
+        newBadges[index].enabled = !newBadges[index].enabled;
+        setBadges(newBadges);
+
+        config.setConfig("source-order", newBadges);
+        config.write()
+    };
+
+    const handleBadgeSwap = (index1, index2) => {
+        setBadges((prev) => {
+            const newBadges = [...prev];
+            [newBadges[index1], newBadges[index2]] = [
+                newBadges[index2],
+                newBadges[index1]
+            ];
+
+            config.setConfig("source-order", newBadges);
+            config.write()
+
+            return newBadges;
+        });
+    };
+
+    return <BadgeList
+        badges={badges}
+        onBadgeClick={handleBadgeClick}
+        onBadgeSwap={handleBadgeSwap}
+    />
+}
 
 export function Config({ config, stylesheet }: { config: LocalJSONConfig, stylesheet: string }) {
     const [configRefresher, setRefresher] = React.useState(0);
@@ -115,10 +152,15 @@ export function Config({ config, stylesheet }: { config: LocalJSONConfig, styles
                 <div className="optionBlock">
                     <div className="optionTitle">运行</div>
                     <div className="optionSubtitle">配置</div>
-                    <Input label="上游代理" placeholder="无" onChange={e => {
+                    <Input label="上游代理" placeholder="无（如：http://127.0.0.1:7890/）" onChange={e => {
                         config.setConfig("upstream-proxy", e.target.value);
                         config.write();
                     }} defaultValue={config.getConfig("upstream-proxy", "")} />
+
+                    <span className="label">音源设置</span>
+                    <div style={{ padding: "15px" }}>
+                        <SourceOrder config={config} />
+                    </div>
                     <div className="note">注：你需要重启进程后配置才能生效</div>
                     <div className="optionSubtitle">当前端口</div>
                     <div style={{ padding: "10px", fontSize: "20px" }}>{config.getConfig("port", Math.round(Math.random() * 10000 + 10000))}</div>

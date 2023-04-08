@@ -10,11 +10,16 @@ plugin.onLoad(async function () {
     await betterncm.fs.mkdir("./RevivedUnblockInstaller");
     await config.read();
 
-   
-    if (config.getConfig("enabled", false)){
+
+    if (config.getConfig("enabled", false)) {
         Notiflix.Loading.circle("RevivedUnblockInstaller 插件正在初始化...");
-        checkAndExecuteUnblock(config);
+        try {
+            checkAndExecuteUnblock(config);
+        } catch (e) {
+            Notiflix.Loading.remove();
+        }
     }
+
 
     await config.write();
 });
