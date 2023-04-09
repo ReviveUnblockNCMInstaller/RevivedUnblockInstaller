@@ -28,7 +28,7 @@ interface UNMEnvironmentVariables {
 const generateEnvironmentVariablesCommandLine = (env: UNMEnvironmentVariables) => {
     let command = '';
     for (const [key, value] of Object.entries(env)) {
-        if (value !== undefined) {
+        if (value) {
             command += `set ${key}=${value} && `;
         }
     }
@@ -92,6 +92,10 @@ export async function installAndLaunchUnblock(port: number, config: LocalJSONCon
         startUNM(binaryPath, port, {
             ENABLE_LOCAL_VIP: false,
             BLOCK_ADS: false,
+            QQ_COOKIE: config.getConfig("qq-cookie", ""),
+            YOUTUBE_KEY: config.getConfig("youtube-key", ""),
+            MIGU_COOKIE: config.getConfig("migu-cookie", ""),
+            JOOX_COOKIE: config.getConfig("joox-cookie", ""),
         }, config.getConfig("visible", false), {
             proxyUrl: config.getConfig("upstream-proxy", ""),
             matchOrder: order.filter(v => v.enable).map(v => v.code),

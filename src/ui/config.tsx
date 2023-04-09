@@ -160,6 +160,38 @@ export function Config({ config, stylesheet }: { config: LocalJSONConfig, styles
                     <span className="label">音源设置</span>
                     <div style={{ padding: "15px" }}>
                         <SourceOrder config={config} />
+                        {
+                            config.getConfig("source-order", SourcesPreset).find(v => v.code === "qq" && v.enable) && (
+                                <Input label="QQ音乐 Cookies" placeholder="QQ 音源的 uin 和 qm_keyst Cookie。必须使用 QQ 登录。" onChange={e => {
+                                    config.setConfig("qq-cookie", e.target.value);
+                                    config.write();
+                                }} defaultValue={config.getConfig("qq-cookie", "")} />
+                            )
+                        }
+                        {
+                            config.getConfig("source-order", SourcesPreset).find(v => v.code === "joox" && v.enable) && (
+                                <Input label="JOOX Cookies" placeholder="JOOX 音源的 wmid 和 session_key Cookie。" onChange={e => {
+                                    config.setConfig("joox-cookie", e.target.value);
+                                    config.write();
+                                }} defaultValue={config.getConfig("joox-cookie", "")} />
+                            )
+                        }
+                        {
+                            config.getConfig("source-order", SourcesPreset).find(v => v.code === "migu" && v.enable) && (
+                                <Input label="咪咕音乐 Cookies" placeholder="咪咕音源的 aversionid Cookie。" onChange={e => {
+                                    config.setConfig("migu-cookie", e.target.value);
+                                    config.write();
+                                }} defaultValue={config.getConfig("migu-cookie", "")} />
+                            )
+                        }
+                        {
+                            config.getConfig("source-order", SourcesPreset).find(v => v.code === "youtube" && v.enable) && (
+                                <Input label="Youtube Key" placeholder="Youtube 音源的 Data API v3 Key。" onChange={e => {
+                                    config.setConfig("youtube-key", e.target.value);
+                                    config.write();
+                                }} defaultValue={config.getConfig("youtube-key", "")} />
+                            )
+                        }
                     </div>
                     <div className="note">注：你需要重启进程后配置才能生效</div>
                     <div className="optionSubtitle">当前端口</div>
