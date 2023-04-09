@@ -14,6 +14,7 @@
 2. 点击 右上角出现的云音乐按钮
 3. 点击 搜索按钮左边的设置按钮
 4. 点击 自定义，在下方的输入框中输入以下自定义源中的任意一个：
+
     ```
     https://cdn.jsdelivr.net/gh/ReviveUnblockNCMInstaller/RevivedUnblockInstaller/
     ```
