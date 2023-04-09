@@ -28,7 +28,10 @@ interface UNMEnvironmentVariables {
 const generateEnvironmentVariablesCommandLine = (env: UNMEnvironmentVariables) => {
     let command = '';
     for (const [key, value] of Object.entries(env)) {
-        if (value) {
+        if (
+            value !== undefined &&
+            value.toString().length > 0
+        ) {
             command += `set ${key}=${value} && `;
         }
     }
