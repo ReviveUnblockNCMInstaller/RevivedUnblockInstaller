@@ -3,9 +3,11 @@
 
 ![preview1](/preview1.png)
 
-![preview2](/preview2.png)
+![preview2](https://user-images.githubusercontent.com/129636358/230762468-fa79e566-2f32-42be-9f95-f54a0e9beffd.png)
 
 ![preview3](https://user-images.githubusercontent.com/129636358/230757757-21f8d7a3-39fc-4477-b6c6-6ecaa86b3756.png)
+
+
 
 
 ### 如何安装？
