@@ -5,6 +5,9 @@
 
 ![preview2](/preview2.png)
 
+![preview3](https://user-images.githubusercontent.com/129636358/230757757-21f8d7a3-39fc-4477-b6c6-6ecaa86b3756.png)
+
+
 ### 如何安装？
 
 1. 安装 [BetterNCM](https://github.com/MicroCBer/BetterNCM) 插件管理器
