@@ -19,6 +19,7 @@ BetterNCM 插件，一键安装解灰
 <p>如果可以，请帮忙在 <a href=https://www.bilibili.com/video/BV1Xh4y1E7vK>此违规视频</a> 下点一个举报或一个踩，感激不尽。 </p>
  
 
+（由于此事件，BetterNCM 团队暂时禁用了自定义源，造成不便还望谅解）
 
 ---------------
 
