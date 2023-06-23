@@ -10,7 +10,8 @@
         "update_time": 1682782504953,
         "publish_time": 1682782504953,
         "repo": "ReviveUnblockNCMInstaller/RevivedUnblockInstaller",
-        "stars": 50,
+        "ncm3-compatible": true,
+        "stars": 112,
         "file": "RevivedUnblockNeteaseMusic.plugin",
         "file-url": "RevivedUnblockNeteaseMusic.plugin"
     }
