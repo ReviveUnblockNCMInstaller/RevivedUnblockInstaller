@@ -15,4 +15,20 @@
         "file": "RevivedUnblockNeteaseMusic.plugin",
         "file-url": "RevivedUnblockNeteaseMusic.plugin"
     }
+    {
+        "name": "RevivedNcmDump",
+        "author": "RevivedNcmDump",
+        "version": "1.0.0",
+        "description": "将.ncm转换为.mp3",
+        "betterncm_version": ">=1.2.0",
+        "preview": "dist/preview.png",
+        "slug": "RevivedNcmDump",
+        "update_time": 1682782504953,
+        "publish_time": 1682782504953,
+        "repo": "ReviveUnblockNCMInstaller/RevivedNcmDump",
+        "ncm3-compatible": true,
+        "stars": 112,
+        "file": "RevivedNcmDump.plugin",
+        "file-url": "RevivedNcmDump.plugin"
+    }
 ]
