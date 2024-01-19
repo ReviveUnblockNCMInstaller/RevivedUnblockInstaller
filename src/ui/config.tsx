@@ -1,5 +1,5 @@
 import Notiflix from "notiflix";
-import { SourcesPreset, applyProxyConfig, checkAndExecuteUnblock, stopUNMProcesses } from "../unblock";
+import { SourcesPreset, OtherSettings, applyProxyConfig, checkAndExecuteUnblock, stopUNMProcesses } from "../unblock";
 import { LocalJSONConfig } from "../utils/config"
 import { RoundedRectButton } from "./RoundRectBtn";
 import { VersionSelector } from "./VersionSelector";
@@ -7,6 +7,40 @@ import { readUrlFile } from "../utils/network";
 import { Input } from "./Input"
 import { BadgeList } from "./Badge";
 
+function OtherSettingsOrder({ config }: { config: LocalJSONConfig }) {
+    const order = config.getConfig("other-settings", OtherSettings);
+    const [badges, setBadges] = React.useState(order);
+
+    const handleBadgeClick = (index) => {
+        const newBadges = [...badges];
+        newBadges[index].enable = !newBadges[index].enable;
+        setBadges(newBadges);
+
+        config.setConfig("other-settings", newBadges);
+        config.write()
+    };
+
+    const handleBadgeSwap = (index1, index2) => {
+        setBadges((prev) => {
+            const newBadges = [...prev];
+            [newBadges[index1], newBadges[index2]] = [
+                newBadges[index2],
+                newBadges[index1]
+            ];
+
+            config.setConfig("other-settings", newBadges);
+            config.write()
+
+            return newBadges;
+        });
+    };
+
+    return <BadgeList
+        badges={badges}
+        onBadgeClick={handleBadgeClick}
+        onBadgeSwap={handleBadgeSwap}
+    />
+}
 
 function SourceOrder({ config }: { config: LocalJSONConfig }) {
     const order = config.getConfig("source-order", SourcesPreset);
@@ -161,6 +195,12 @@ export function Config({ config, stylesheet }: { config: LocalJSONConfig, styles
                     <div style={{ padding: "15px" }}>
                         <SourceOrder config={config} />
                         {
+                            <Input label="网易云音乐 Cookies" placeholder="需要准备有VIP的网易云账号的COOKIE (MUSIC_U)（请参阅下方〈环境变量〉处）。" onChange={e => {
+                                config.setConfig("netease-cookie", e.target.value);
+                                config.write();
+                            }} defaultValue={config.getConfig("netease-cookie", "")} />
+                        }
+                        {
                             config.getConfig("source-order", SourcesPreset).find(v => v.code === "qq" && v.enable) && (
                                 <Input label="QQ音乐 Cookies" placeholder="QQ 音源的 uin 和 qm_keyst Cookie。必须使用 QQ 登录。" onChange={e => {
                                     config.setConfig("qq-cookie", e.target.value);
@@ -192,6 +232,10 @@ export function Config({ config, stylesheet }: { config: LocalJSONConfig, styles
                                 }} defaultValue={config.getConfig("youtube-key", "")} />
                             )
                         }
+                    </div>
+                    <span className="label">其他设置</span>
+                    <div style={{ padding: "15px" }}>
+                        <OtherSettingsOrder config={config} />
                     </div>
                     <div className="note">注：你需要重启进程后配置才能生效</div>
                     <div className="optionSubtitle">当前端口</div>

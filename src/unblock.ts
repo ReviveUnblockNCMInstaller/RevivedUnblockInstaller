@@ -4,7 +4,7 @@ import { LocalJSONConfig } from "./utils/config";
 
 interface UNMEnvironmentVariables {
     ENABLE_FLAC?: boolean;
-    ENABLE_LOCAL_VIP?: boolean;
+    ENABLE_LOCAL_VIP?: 'true' | 'cvip' | 'svip' | 'false';
     ENABLE_HTTPDNS?: boolean;
     BLOCK_ADS?: boolean;
     DISABLE_UPGRADE_CHECK?: boolean;
@@ -23,6 +23,7 @@ interface UNMEnvironmentVariables {
     SIGN_CERT?: string;
     SIGN_KEY?: string;
     SEARCH_ALBUM?: boolean;
+    NETEASE_COOKIE?: string;
 }
 
 const generateEnvironmentVariablesCommandLine = (env: UNMEnvironmentVariables) => {
@@ -32,7 +33,7 @@ const generateEnvironmentVariablesCommandLine = (env: UNMEnvironmentVariables) =
             value !== undefined &&
             value.toString().length > 0
         ) {
-            command += `set ${key}=${value} && `;
+            command += `set ${key}=${value}&& `;
         }
     }
     return command.slice(0, -4);
@@ -91,14 +92,19 @@ export async function installAndLaunchUnblock(port: number, config: LocalJSONCon
     const binaryPath = `./RevivedUnblockInstaller/${selectedVersion.filename}`;
     if (betterncm_native.fs.exists(binaryPath)) {
         const order = config.getConfig("source-order", SourcesPreset);
+        const other = config.getConfig("other-settings", OtherSettings);
 
         startUNM(binaryPath, port, {
-            ENABLE_LOCAL_VIP: false,
-            BLOCK_ADS: false,
+            ENABLE_LOCAL_VIP: other.find(v => v.code === "ENABLE_LOCAL_VIP").enable ? 'svip' : 'false',
+            BLOCK_ADS: other.find(v => v.code === "BLOCK_ADS").enable,
+            DISABLE_UPGRADE_CHECK: other.find(v => v.code === "DISABLE_UPGRADE_CHECK").enable,
+            SEARCH_ALBUM: other.find(v => v.code === "SEARCH_ALBUM").enable,
+            LOG_LEVEL: other.find(v => v.code === "LOG_LEVEL").enable ? 'debug' : 'info',
             QQ_COOKIE: config.getConfig("qq-cookie", ""),
             YOUTUBE_KEY: config.getConfig("youtube-key", ""),
             MIGU_COOKIE: config.getConfig("migu-cookie", ""),
             JOOX_COOKIE: config.getConfig("joox-cookie", ""),
+            NETEASE_COOKIE: config.getConfig("netease-cookie", ""),
         }, config.getConfig("visible", false), {
             proxyUrl: config.getConfig("upstream-proxy", ""),
             matchOrder: order.filter(v => v.enable).map(v => v.code),
@@ -219,6 +225,33 @@ export async function checkAndExecuteUnblock(config: LocalJSONConfig) {
 export const stopUNMProcesses = async () =>
     await betterncm.app.exec(`taskkill /f /fi """"IMAGENAME eq UnblockNeteaseMusic-*""""`);
 
+export const OtherSettings = [
+    {
+        "name": "激活本地SVip",
+        "code": "ENABLE_LOCAL_VIP",
+        "enable": false,
+    },
+    {
+        "name": "屏蔽应用内部分广告",
+        "code": "BLOCK_ADS",
+        "enable": false
+    },
+    {
+        "name": "禁用更新检测",
+        "code": "DISABLE_UPGRADE_CHECK",
+        "enable": false
+    },
+    {
+        "name": "在其他音源搜索歌曲时携带专辑名称",
+        "code": "SEARCH_ALBUM",
+        "enable": false
+    },
+    {
+        "name": "打开调试模式（仅限开发者）",
+        "code": "LOG_LEVEL",
+        "enable": false
+    },
+];
 
 export const SourcesPreset = [
     {
