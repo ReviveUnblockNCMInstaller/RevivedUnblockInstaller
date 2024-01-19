@@ -195,7 +195,7 @@ export function Config({ config, stylesheet }: { config: LocalJSONConfig, styles
                     <div style={{ padding: "15px" }}>
                         <SourceOrder config={config} />
                         {
-                            <Input label="网易云音乐 Cookies" placeholder="需要准备有VIP的网易云账号的COOKIE (MUSIC_U)（请参阅下方〈环境变量〉处）。" onChange={e => {
+                            <Input label="网易云音乐 Cookies" placeholder="网易云VIP账号的 MUSIC_U (MUSIC_U=xxxxxx)。" onChange={e => {
                                 config.setConfig("netease-cookie", e.target.value);
                                 config.write();
                             }} defaultValue={config.getConfig("netease-cookie", "")} />
