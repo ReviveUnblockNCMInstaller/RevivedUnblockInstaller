@@ -7,9 +7,86 @@ import { readUrlFile } from "../utils/network";
 import { Input } from "./Input"
 import { BadgeList } from "./Badge";
 
-function OtherSettingsOrder({ config }: { config: LocalJSONConfig }) {
-    const order = config.getConfig("other-settings", OtherSettings);
+function SourceOrderList({ config }: { config: LocalJSONConfig }) {
+    const order = config.getConfig("source-order", SourcesPreset);
     const [badges, setBadges] = React.useState(order);
+    const [enableBadges, setEnableBadges] = React.useState(badges.filter(v => v.enable));
+
+    const saveConfig = () => {
+        const oldBadges = config.getConfig("source-order", SourcesPreset);
+        const newBadges = [...enableBadges];
+        oldBadges.forEach((oldBadge) => {
+            const newBadge = newBadges.find((v) => v.code === oldBadge.code);
+            if (!newBadge) {
+                newBadges.push(oldBadge);
+            }
+        });
+
+        setBadges(newBadges);
+
+        config.setConfig("source-order", newBadges);
+        config.write();
+    }
+
+    const upItem = (code) => {
+        const index = enableBadges.findIndex(v => v.code === code);
+        if (index === 0) return;
+        const newBadges = [...enableBadges];
+        [newBadges[index], newBadges[index - 1]] = [
+            newBadges[index - 1],
+            newBadges[index]
+        ];
+        setEnableBadges(newBadges);
+        saveConfig();
+    }
+
+    const downItem = (code) => {
+        const index = enableBadges.findIndex(v => v.code === code);
+        if (index === enableBadges.length - 1) return;
+        const newBadges = [...enableBadges];
+        [newBadges[index], newBadges[index + 1]] = [
+            newBadges[index + 1],
+            newBadges[index]
+        ];
+        setEnableBadges(newBadges);
+        saveConfig();
+    }
+
+    return (
+        <div className="updown-list">
+            {enableBadges.map((item, index) => {
+                return (
+                    <div
+                        className="updown"
+                        key={item.code}
+                    >
+                        {item.name}
+                        <div
+                            className="updown-btns"
+                        >
+                            <div
+                                className="updown-btn"
+                                onClick={() => upItem(item.code)}
+                            >
+                                {index === 0 ? '\u00A0' : '↑'}
+                            </div>
+                            <div
+                                className="updown-btn"
+                                onClick={() => downItem(item.code)}
+                            >
+                                {index === enableBadges.length - 1 ? '\u00A0' : '↓'}
+                            </div>
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
+    );
+}
+
+function OtherSettings({ config }: { config: LocalJSONConfig }) {
+    const settings = config.getConfig("other-settings", OtherSettings);
+    const [badges, setBadges] = React.useState(settings);
 
     const handleBadgeClick = (index) => {
         const newBadges = [...badges];
@@ -235,7 +312,11 @@ export function Config({ config, stylesheet }: { config: LocalJSONConfig, styles
                     </div>
                     <span className="label">其他设置</span>
                     <div style={{ padding: "15px" }}>
-                        <OtherSettingsOrder config={config} />
+                        <OtherSettings config={config} />
+                    </div>
+                    <span className="label">音源顺序</span>
+                    <div style={{ padding: "15px" }}>
+                        <SourceOrderList config={config} />
                     </div>
                     <div className="note">注：你需要重启进程后配置才能生效</div>
                     <div className="optionSubtitle">当前端口</div>

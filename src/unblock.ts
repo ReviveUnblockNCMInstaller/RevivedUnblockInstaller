@@ -95,11 +95,13 @@ export async function installAndLaunchUnblock(port: number, config: LocalJSONCon
         const other = config.getConfig("other-settings", OtherSettings);
 
         startUNM(binaryPath, port, {
-            ENABLE_LOCAL_VIP: other.find(v => v.code === "ENABLE_LOCAL_VIP").enable ? 'svip' : 'false',
-            BLOCK_ADS: other.find(v => v.code === "BLOCK_ADS").enable,
-            DISABLE_UPGRADE_CHECK: other.find(v => v.code === "DISABLE_UPGRADE_CHECK").enable,
+            ENABLE_LOCAL_VIP: other.find(v => v.code === "ENABLE_LOCAL_VIP")?.enable ? 'svip' : 'false',
+            BLOCK_ADS: other.find(v => v.code === "BLOCK_ADS")?.enable || false,
+            DISABLE_UPGRADE_CHECK: other.find(v => v.code === "DISABLE_UPGRADE_CHECK")?.enable || false,
             SEARCH_ALBUM: other.find(v => v.code === "SEARCH_ALBUM").enable,
             LOG_LEVEL: other.find(v => v.code === "LOG_LEVEL").enable ? 'debug' : 'info',
+            ENABLE_FLAC: other.find(v => v.code === "ENABLE_FLAC")?.enable || false,
+            FOLLOW_SOURCE_ORDER: other.find(v => v.code === "FOLLOW_SOURCE_ORDER").enable,
             QQ_COOKIE: config.getConfig("qq-cookie", ""),
             YOUTUBE_KEY: config.getConfig("youtube-key", ""),
             MIGU_COOKIE: config.getConfig("migu-cookie", ""),
@@ -226,26 +228,36 @@ export const stopUNMProcesses = async () =>
     await betterncm.app.exec(`taskkill /f /fi """"IMAGENAME eq UnblockNeteaseMusic-*""""`);
 
 export const OtherSettings = [
-    {
-        "name": "激活本地SVip",
-        "code": "ENABLE_LOCAL_VIP",
-        "enable": false,
-    },
-    {
-        "name": "屏蔽应用内部分广告",
-        "code": "BLOCK_ADS",
-        "enable": false
-    },
-    {
-        "name": "禁用更新检测",
-        "code": "DISABLE_UPGRADE_CHECK",
-        "enable": false
-    },
+    // {
+    //     "name": "激活本地SVip",
+    //     "code": "ENABLE_LOCAL_VIP",
+    //     "enable": false,
+    // },
+    // {
+    //     "name": "屏蔽应用内部分广告",
+    //     "code": "BLOCK_ADS",
+    //     "enable": false
+    // },
+    // {
+    //     "name": "禁用更新检测",
+    //     "code": "DISABLE_UPGRADE_CHECK",
+    //     "enable": false
+    // },
     {
         "name": "在其他音源搜索歌曲时携带专辑名称",
         "code": "SEARCH_ALBUM",
         "enable": false
     },
+    {
+        "name": "严格按照配置音源的顺序进行查询",
+        "code": "FOLLOW_SOURCE_ORDER",
+        "enable": false
+    },
+    // {
+    //     "name": "激活无损音质获取",
+    //     "code": "ENABLE_FLAC",
+    //     "enable": false
+    // },
     {
         "name": "打开调试模式（仅限开发者）",
         "code": "LOG_LEVEL",
