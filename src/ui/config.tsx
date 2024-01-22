@@ -84,7 +84,7 @@ function SourceOrderList({ config }: { config: LocalJSONConfig }) {
     );
 }
 
-function OtherSettings({ config }: { config: LocalJSONConfig }) {
+function OtherSetting({ config }: { config: LocalJSONConfig }) {
     const settings = config.getConfig("other-settings", OtherSettings);
     const [badges, setBadges] = React.useState(settings);
 
@@ -312,7 +312,7 @@ export function Config({ config, stylesheet }: { config: LocalJSONConfig, styles
                     </div>
                     <span className="label">其他设置</span>
                     <div style={{ padding: "15px" }}>
-                        <OtherSettings config={config} />
+                        <OtherSetting config={config} />
                     </div>
                     <span className="label">音源顺序</span>
                     <div style={{ padding: "15px" }}>
