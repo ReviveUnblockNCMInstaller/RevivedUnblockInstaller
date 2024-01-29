@@ -11,7 +11,7 @@
     padding: 10px;
 
     * {
-        font-family: "Noto Sans" !important;
+        font-family: "Noto Sans", "Noto Sans SC", "Microsoft YaHei" !important;
     }
 
     .title {
@@ -241,6 +241,12 @@
             flex-wrap: wrap;
             gap: 20px;
 
+            &.badge-list-swap {
+                .badge {
+                    padding: 8px 0px;
+                }
+            }
+
             .badge-wrapper {
                 cursor: grab;
             }
@@ -270,10 +276,34 @@
                 color: rgba(255, 255, 255, 0.527);
             }
 
+            &-swap-button {
+                border-radius: 100%;
+                border: none;
+                width: 18px;
+                height: 18px;
+                font-size: 13px;
+                background: transparent;
+                font-weight: 900;
+                transition: background-color 0.2s, opacity 0.2s;
+                opacity: 0;
+                margin: 0 3px;
+
+                &:hover {
+                    cursor: pointer;
+                    background-color: #3c3c3c;
+                }
+            }
+
             &:hover {
                 cursor: pointer;
                 background-color: #333333;
+
+                .badge-swap-button {
+                    opacity: 1;
+                }
             }
+
+            
         }
 
         .badge-text {

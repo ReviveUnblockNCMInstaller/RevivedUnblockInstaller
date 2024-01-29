@@ -7,83 +7,6 @@ import { readUrlFile } from "../utils/network";
 import { Input } from "./Input"
 import { BadgeList } from "./Badge";
 
-function SourceOrderList({ config }: { config: LocalJSONConfig }) {
-    const order = config.getConfig("source-order", SourcesPreset);
-    const [badges, setBadges] = React.useState(order);
-    const [enableBadges, setEnableBadges] = React.useState(badges.filter(v => v.enable));
-
-    const saveConfig = () => {
-        const oldBadges = config.getConfig("source-order", SourcesPreset);
-        const newBadges = [...enableBadges];
-        oldBadges.forEach((oldBadge) => {
-            const newBadge = newBadges.find((v) => v.code === oldBadge.code);
-            if (!newBadge) {
-                newBadges.push(oldBadge);
-            }
-        });
-
-        setBadges(newBadges);
-
-        config.setConfig("source-order", newBadges);
-        config.write();
-    }
-
-    const upItem = (code) => {
-        const index = enableBadges.findIndex(v => v.code === code);
-        if (index === 0) return;
-        const newBadges = [...enableBadges];
-        [newBadges[index], newBadges[index - 1]] = [
-            newBadges[index - 1],
-            newBadges[index]
-        ];
-        setEnableBadges(newBadges);
-        saveConfig();
-    }
-
-    const downItem = (code) => {
-        const index = enableBadges.findIndex(v => v.code === code);
-        if (index === enableBadges.length - 1) return;
-        const newBadges = [...enableBadges];
-        [newBadges[index], newBadges[index + 1]] = [
-            newBadges[index + 1],
-            newBadges[index]
-        ];
-        setEnableBadges(newBadges);
-        saveConfig();
-    }
-
-    return (
-        <div className="updown-list">
-            {enableBadges.map((item, index) => {
-                return (
-                    <div
-                        className="updown"
-                        key={item.code}
-                    >
-                        {item.name}
-                        <div
-                            className="updown-btns"
-                        >
-                            <div
-                                className="updown-btn"
-                                onClick={() => upItem(item.code)}
-                            >
-                                {index === 0 ? '\u00A0' : '↑'}
-                            </div>
-                            <div
-                                className="updown-btn"
-                                onClick={() => downItem(item.code)}
-                            >
-                                {index === enableBadges.length - 1 ? '\u00A0' : '↓'}
-                            </div>
-                        </div>
-                    </div>
-                );
-            })}
-        </div>
-    );
-}
-
 function OtherSetting({ config }: { config: LocalJSONConfig }) {
     const settings = config.getConfig("other-settings", OtherSettings);
     const [badges, setBadges] = React.useState(settings);
@@ -151,6 +74,7 @@ function SourceOrder({ config }: { config: LocalJSONConfig }) {
         badges={badges}
         onBadgeClick={handleBadgeClick}
         onBadgeSwap={handleBadgeSwap}
+        swapable={true}
     />
 }
 
@@ -188,7 +112,7 @@ export function Config({ config, stylesheet }: { config: LocalJSONConfig, styles
                 filename: `UnblockNeteaseMusic-${latestVersion.tag_name}-ghproxy.exe`,
                 onlineFileName: asset.name,
                 releaseDate: asset.created_at,
-                download_url: "https://ghproxy.com/" + asset.browser_download_url
+                download_url: "https://mirror.ghproxy.com/" + asset.browser_download_url
             }]);
         })()
     }, []);
@@ -272,12 +196,6 @@ export function Config({ config, stylesheet }: { config: LocalJSONConfig, styles
                     <div style={{ padding: "15px" }}>
                         <SourceOrder config={config} />
                         {
-                            <Input label="网易云音乐 Cookies" placeholder="网易云VIP账号的 MUSIC_U (MUSIC_U=xxxxxx)。" onChange={e => {
-                                config.setConfig("netease-cookie", e.target.value);
-                                config.write();
-                            }} defaultValue={config.getConfig("netease-cookie", "")} />
-                        }
-                        {
                             config.getConfig("source-order", SourcesPreset).find(v => v.code === "qq" && v.enable) && (
                                 <Input label="QQ音乐 Cookies" placeholder="QQ 音源的 uin 和 qm_keyst Cookie。必须使用 QQ 登录。" onChange={e => {
                                     config.setConfig("qq-cookie", e.target.value);
@@ -313,10 +231,6 @@ export function Config({ config, stylesheet }: { config: LocalJSONConfig, styles
                     <span className="label">其他设置</span>
                     <div style={{ padding: "15px" }}>
                         <OtherSetting config={config} />
-                    </div>
-                    <span className="label">音源顺序</span>
-                    <div style={{ padding: "15px" }}>
-                        <SourceOrderList config={config} />
                     </div>
                     <div className="note">注：你需要重启进程后配置才能生效</div>
                     <div className="optionSubtitle">当前端口</div>

@@ -95,7 +95,7 @@ export async function installAndLaunchUnblock(port: number, config: LocalJSONCon
         const other = config.getConfig("other-settings", OtherSettings);
 
         startUNM(binaryPath, port, {
-            ENABLE_LOCAL_VIP: other.find(v => v.code === "ENABLE_LOCAL_VIP")?.enable ? 'svip' : 'false',
+            ENABLE_LOCAL_VIP: other.find(v => v.code === "ENABLE_LOCAL_VIP")?.enable ? 'false' : 'false',
             BLOCK_ADS: other.find(v => v.code === "BLOCK_ADS")?.enable || false,
             DISABLE_UPGRADE_CHECK: other.find(v => v.code === "DISABLE_UPGRADE_CHECK")?.enable || false,
             SEARCH_ALBUM: other.find(v => v.code === "SEARCH_ALBUM").enable,

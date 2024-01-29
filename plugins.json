@@ -2,7 +2,7 @@
     {
         "name": "RevivedUnblockInstaller",
         "author": "RevivedUnblockInstaller",
-        "version": "1.1.1",
+        "version": "1.1.2",
         "description": "一键安装网易云解灰",
         "betterncm_version": ">=1.2.0",
         "preview": "dist/preview.png",
@@ -10,7 +10,7 @@
         "update_time": 1682782504953,
         "publish_time": 1682782504953,
         "repo": "ReviveUnblockNCMInstaller/RevivedUnblockInstaller",
-        "stars": 40,
+        "stars": 300,
         "file": "RevivedUnblockNeteaseMusic.plugin",
         "file-url": "RevivedUnblockNeteaseMusic.plugin"
     }
