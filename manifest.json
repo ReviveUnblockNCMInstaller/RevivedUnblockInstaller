@@ -6,6 +6,7 @@
     "description": "RevivedUnblockInstaller",
     "betterncm_version": ">=0.2.5",
     "preview": "preview.png",
+    "ncm3-compatible": true,
     "injects": {
         "Main": [ 
             {
