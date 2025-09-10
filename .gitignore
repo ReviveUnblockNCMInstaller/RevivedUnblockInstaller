@@ -4,6 +4,7 @@ yarn.lock
 /startup_script.js
 /style.css
 /manifest.json
+/package-lock.json
 /preview.png
 
 node_modules/
